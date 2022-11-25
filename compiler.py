@@ -11,11 +11,26 @@ instruction_dict = {
     "AND"   : "1001"
 }
 
-def get_asm(s):
-    asm_file = open(s, "r")
-    asm = asm_file.read()
-    asm_file.close()
+def read_asm(path):
+    file = open(path, "r")
+    asm = file.read()
+    file.close()
     return asm
+
+def write_code(path, code):
+    file = open(path, "w")
+    file.write(code)
+    file.close()
+
+def print_info(asm, code):
+    print("Pre-compilation code:")
+    print("=====================")
+    print(asm)
+    print("=====================")
+    print("Post-compilation code:")
+    print("=====================")
+    print(code)
+    print("=====================")
 
 def compile(block):
     block = remove_comments(block)
@@ -35,14 +50,9 @@ def replace_instruction_names(block):
         block = block.replace(key, instruction_dict[key])
     return block
 
-asm = get_asm("file.asm")
+# actual execution
+path = "file"
+asm = read_asm(path+".asm")
 code = compile(asm)
-
-print("Pre-compilation code:")
-print("=====================")
-print(asm)
-print("=====================")
-print("Post-compilation code:")
-print("=====================")
-print(code)
-print("=====================")
+write_code(path, code)
+print_info(asm, code)
