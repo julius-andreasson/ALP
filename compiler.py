@@ -1,4 +1,4 @@
-dict = {
+instruction_dict = {
     "CALL"  : "0000",
     "RET"   : "0001",
     "BZ"    : "0010",
@@ -11,18 +11,15 @@ dict = {
     "AND"   : "1001"
 }
 
-text = """CALL 0 2
-//comment
-AND 0 04"""
+def get_asm(s):
+    asm_file = open(s, "r")
+    asm = asm_file.read()
+    asm_file.close()
+    return asm
 
 def compile(block):
     block = remove_comments(block)
     block = replace_instruction_names(block)
-    return block
-
-def replace_instruction_names(block):
-    for key in dict.keys():
-        block = block.replace(key, dict[key])
     return block
 
 def remove_comments(block):
@@ -32,8 +29,19 @@ def remove_comments(block):
             out += line + "\n"
     return out
 
+def replace_instruction_names(block):
+    for key in instruction_dict.keys():
+        block = block.replace(key, instruction_dict[key])
+    return block
+
+asm = get_asm("file.asm")
+code = compile(asm)
 
 print("Pre-compilation code:")
-print(text)
+print("=====================")
+print(asm)
+print("=====================")
 print("Post-compilation code:")
-print(compile(text))
+print("=====================")
+print(code)
+print("=====================")
