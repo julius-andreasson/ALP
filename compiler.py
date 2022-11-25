@@ -12,12 +12,26 @@ dict = {
 }
 
 text = """CALL 0 2
+//comment
 AND 0 04"""
 
 def compile(block):
+    block = remove_comments(block)
+    block = replace_instruction_names(block)
+    return block
+
+def replace_instruction_names(block):
     for key in dict.keys():
         block = block.replace(key, dict[key])
     return block
+
+def remove_comments(block):
+    out = ""
+    for line in block.split("\n"):
+        if line[0:2] != "//":
+            out += line + "\n"
+    return out
+
 
 print("Pre-compilation code:")
 print(text)
