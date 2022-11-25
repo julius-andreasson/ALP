@@ -27,6 +27,7 @@ def remove_comments(block):
     for line in block.split("\n"):
         if line[0:2] != "//":
             out += line + "\n"
+    out = out[:-2] # Removes the final '\n', so that there isn't a trailing newline in the output.
     return out
 
 def replace_instruction_names(block):
