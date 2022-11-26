@@ -22,10 +22,10 @@ def write_code(path, code):
     file.write(code)
     file.close()
 
-def print_info(asm, code):
+def print_info(alp, code):
     print("Pre-compilation code:")
     print("=====================")
-    print(asm)
+    print(alp)
     print("=====================")
     print("Post-compilation code:")
     print("=====================")
