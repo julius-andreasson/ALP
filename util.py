@@ -98,8 +98,14 @@ def format_to_hex(block):
     def fu(line, out):
         i = int(line, 2) #convert binary string to int
         h = hex(i)[2:] #convert int to hex and cut off '0x' part.
+        h = h.upper()
+        while(len(h)<4):
+            h = "0"+h
         return out + h +";\n"
     block = for_each_line(block, fu)
+    block += "\n"
+    while (block.count("\n") < 64):
+        block += "0000;\n"
     return block
 
 '''Compiler main function
