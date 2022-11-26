@@ -45,7 +45,7 @@ def get_path():
     if cfg.debug:
         path = cfg.default_path
     else:
-        path = "file" #todo: file chooser
+        path = input("Input .alp file name:")
     # Add .alp to end of path if it's not already there.
     if path[-4] != ".alp":
         path += ".alp"

@@ -1,0 +1,3 @@
+CALL 1 3
+//comment
+RET 0 04
