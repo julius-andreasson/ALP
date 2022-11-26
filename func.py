@@ -1,6 +1,6 @@
 import cfg
 
-### Functions ###
+### IO methods ###
 def read_alp(path):
     file = open(path, "r")
     alp = file.read()
@@ -13,34 +13,6 @@ def write_code(path, code):
     file.write(code)
     file.close()
 
-def print_info(alp, code):
-    print("Pre-compilation code:")
-    print("=====================")
-    print(alp)
-    print("=====================")
-    print("Post-compilation code:")
-    print("=====================")
-    print(code)
-    print("=====================")
-
-def compile(block):
-    block = remove_comments(block)
-    block = replace_instruction_names(block)
-    return block
-
-def remove_comments(block):
-    out = ""
-    for line in block.split("\n"):
-        if line[0:2] != "//":
-            out += line + "\n"
-    out = out[:-2] # Removes the final '\n', so that there isn't a trailing newline in the output.
-    return out
-
-def replace_instruction_names(block):
-    for key in cfg.instruction_dict.keys():
-        block = block.replace(key, cfg.instruction_dict[key])
-    return block
-
 def get_path():
     if cfg.debug:
         path = cfg.default_path
@@ -51,3 +23,59 @@ def get_path():
     if path[-4] != ".alp":
         path += ".alp"
     return path
+
+def print_info(alp, code):
+    print("Pre-compilation code:")
+    print("=====================")
+    print(alp)
+    print("=====================")
+    print("Post-compilation code:")
+    print("=====================")
+    print(code)
+    print("=====================")
+
+### Compiler utilities ###
+'''Applies the function `f` to each line in `block`.'''
+def for_each_line(f, block):
+    out = ""
+    for line in block.split('\n'):
+        out = f(line, out)
+    out = out[:-1] # Removes the final trailing '\n'.
+    return out
+
+def remove_comments(block):
+    def f(line, out):
+        if line[0:2] != "//":
+            out += line + '\n'
+        return out
+    return for_each_line(f, block)
+
+def replace_decimals(block):
+    def f(line, out):
+        new = ""
+        for word in line.split(" "):
+            if word.isdigit():
+                integer = int(word)
+                binary = format(integer, 'b')
+                while(len(binary) < cfg.datawidth):
+                    binary = '0'+binary
+                new += binary + " "
+            else:
+                new += word + " "
+        new = new[:-1] # Remove final trailing whitespace.
+        out += new + "\n"
+        return out
+    return for_each_line(f, block)
+
+def replace_instruction_names(block):
+    for key in cfg.instruction_dict.keys():
+        block = block.replace(key, cfg.instruction_dict[key])
+    return block
+
+### Compiler main function ###
+def compile(block):
+    block = remove_comments(block)
+    # block = replace_flags(block) #todo
+    block = replace_decimals(block)
+    block = replace_instruction_names(block)
+    return block
