@@ -8,7 +8,8 @@ def read_src(path):
     return src
 
 def write_code(path, code):
-    path = path[:-4] # Remove .alp from end of path.
+    path = path[:-3] # Remove alp from end of path.
+    path += "hex"
     file = open(path, "w")
     file.write(code)
     file.close()
@@ -91,6 +92,16 @@ def replace_decimals(block):
         return out
     return for_each_line(block, f)
 
+def format_to_hex(block):
+    dicte = {" R0 ": "0", " R1 ": "1"}
+    block = replace_using_dict(block, dicte)
+    def fu(line, out):
+        i = int(line, 2) #convert binary string to int
+        h = hex(i)[2:] #convert int to hex and cut off '0x' part.
+        return out + h +";\n"
+    block = for_each_line(block, fu)
+    return block
+
 '''Compiler main function
 Written to be self-explanatory'''
 def compile(block):
@@ -99,4 +110,5 @@ def compile(block):
     block = replace_labels(block)
     block = replace_decimals(block)
     block = replace_instruction_names(block)
+    block = format_to_hex(block)
     return block
