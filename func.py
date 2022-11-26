@@ -47,6 +47,7 @@ def get_path():
     else:
         path = input("Input .alp file name:")
     # Add .alp to end of path if it's not already there.
+    path = "Files/" + path
     if path[-4] != ".alp":
         path += ".alp"
     return path
