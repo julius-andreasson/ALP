@@ -11,11 +11,11 @@ instruction_dict = {
     "AND"   : "1001"
 }
 
-def read_asm(path):
+def read_alp(path):
     file = open(path, "r")
-    asm = file.read()
+    alp = file.read()
     file.close()
-    return asm
+    return alp
 
 def write_code(path, code):
     file = open(path, "w")
@@ -52,7 +52,7 @@ def replace_instruction_names(block):
 
 # actual execution
 path = "file"
-asm = read_asm(path+".alp")
-code = compile(asm)
+alp = read_alp(path+".alp")
+code = compile(alp)
 write_code(path, code)
-print_info(asm, code)
+print_info(alp, code)
