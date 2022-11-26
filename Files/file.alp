@@ -1,3 +1,5 @@
-CALL R0 2
+#Start
+CALL R0 #Start
 //comment
-AND R0 04
+AND R0 #End
+#End
