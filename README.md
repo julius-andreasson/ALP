@@ -1,4 +1,4 @@
-# AssemblyLikeProgramming
+# ALP (Assembly-Like Programming)
 
 This project aims to produce a simple compiler from `.alp` (`assembly-like programming` source file) to machine code, made to run on our custom-made Micro-Controller Unit.
 
