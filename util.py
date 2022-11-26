@@ -1,11 +1,11 @@
 import cfg
 
 ### IO methods ###
-def read_alp(path):
+def read_src(path):
     file = open(path, "r")
-    alp = file.read()
+    src = file.read()
     file.close()
-    return alp
+    return src
 
 def write_code(path, code):
     path = path[:-4] # Remove .alp from end of path.
@@ -24,24 +24,35 @@ def get_path():
         path += ".alp"
     return path
 
-def print_info(alp, code):
-    print("Pre-compilation code:")
+def print_info(src, code):
+    print("Source code:")
     print("=====================")
-    print(alp)
+    print(src)
     print("=====================")
-    print("Post-compilation code:")
+    print("Compiled code:")
     print("=====================")
     print(code)
     print("=====================")
 
 ### Compiler utilities ###
 '''Applies the function `f` to each line in `block`.'''
-def for_each_line(f, block):
+def for_each_line(block, f):
     out = ""
     for line in block.split('\n'):
         out = f(line, out)
     out = out[:-1] # Removes the final trailing '\n'.
     return out
+
+def replace_using_dict(block, dict):
+    for key in dict.keys():
+        block = block.replace(key, dict[key])
+    return block
+
+def replace_instruction_names(block):
+    return replace_using_dict(block, cfg.instruction_dict)
+
+def replace_flags(block):
+    return replace_using_dict(block, cfg.flag_dict)
 
 '''Adds jump codes to flag_dict'''
 def collect_flags(block):
@@ -73,6 +84,7 @@ def replace_decimals(block):
             if word.isdigit():
                 integer = int(word)
                 binary = format(integer, 'b')
+                #Add padding so that the binary number is always 8 bits long.
                 while(len(binary) < cfg.datawidth):
                     binary = '0'+binary
                 new += binary + " "
@@ -83,18 +95,8 @@ def replace_decimals(block):
         return out
     return for_each_line(f, block)
 
-def replace_using_dict(block, dict):
-    for key in dict.keys():
-        block = block.replace(key, dict[key])
-    return block
-
-def replace_instruction_names(block):
-    return replace_using_dict(block, cfg.instruction_dict)
-
-def replace_flags(block):
-    return replace_using_dict(block, cfg.flag_dict)
-
-### Compiler main function ###
+'''Compiler main function
+Written to be self-explanatory'''
 def compile(block):
     block = remove_comments(block)
     block = collect_flags(block)
