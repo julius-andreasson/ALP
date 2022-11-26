@@ -51,31 +51,27 @@ def replace_using_dict(block, dict):
 def replace_instruction_names(block):
     return replace_using_dict(block, cfg.instruction_dict)
 
-def replace_flags(block):
-    return replace_using_dict(block, cfg.flag_dict)
+def replace_labels(block):
+    return replace_using_dict(block, cfg.label_dict)
 
-'''Adds jump codes to flag_dict'''
-def collect_flags(block):
-    cfg.flag_index = 0 # Maybe this is a poor solution
+'''Adds jump codes to label_dict'''
+def collect_labels(block):
+    cfg.label_index = 0 # Maybe this is a poor solution
     def f(line, out):
         if line[0:1] != "#":
             out += line + '\n'
-            cfg.flag_index += 1
+            cfg.label_index += 1
         else:
-            cfg.flag_dict[line] = str(cfg.flag_index)
+            cfg.label_dict[line] = str(cfg.label_index)
         return out
-    return for_each_line(f, block)
-
-def replace_flags(block):
-    print(cfg.flag_dict)
-    return block
+    return for_each_line(block, f)
 
 def remove_comments(block):
     def f(line, out):
         if line[0:2] != "//":
             out += line + '\n'
         return out
-    return for_each_line(f, block)
+    return for_each_line(block, f)
 
 def replace_decimals(block):
     def f(line, out):
@@ -93,14 +89,14 @@ def replace_decimals(block):
         new = new[:-1] # Remove final trailing whitespace.
         out += new + "\n"
         return out
-    return for_each_line(f, block)
+    return for_each_line(block, f)
 
 '''Compiler main function
 Written to be self-explanatory'''
 def compile(block):
     block = remove_comments(block)
-    block = collect_flags(block)
-    block = replace_flags(block)
+    block = collect_labels(block)
+    block = replace_labels(block)
     block = replace_decimals(block)
     block = replace_instruction_names(block)
     return block

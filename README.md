@@ -8,4 +8,4 @@ The project is called `assembly-like programming` as it's made for coding on the
 - Custom instruction names and codes
 - Automatic conversion from decimal to binary
 - Comments
-- Flag system for line jumps
+- Label system for line jumps
