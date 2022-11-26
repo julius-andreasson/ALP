@@ -52,7 +52,7 @@ def replace_instruction_names(block):
 
 # actual execution
 path = "file"
-asm = read_asm(path+".asm")
+asm = read_asm(path+".alp")
 code = compile(asm)
 write_code(path, code)
 print_info(asm, code)
