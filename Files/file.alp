@@ -1,5 +1,9 @@
-#Start
-CALL R0 #Start
-//comment
-AND R0 #End
+LD R0 10
+#Check
+// If R0 == 0, goto End
+BZ R0 #End
+// Else, subtract one from R0
+SUB R0 1
+// goto #Check
+B R0 #Check
 #End
