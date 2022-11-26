@@ -43,6 +43,22 @@ def for_each_line(f, block):
     out = out[:-1] # Removes the final trailing '\n'.
     return out
 
+'''Adds jump codes to flag_dict'''
+def collect_flags(block):
+    cfg.flag_index = 0 # Maybe this is a poor solution
+    def f(line, out):
+        if line[0:1] != "#":
+            out += line + '\n'
+            cfg.flag_index += 1
+        else:
+            cfg.flag_dict[line] = str(cfg.flag_index)
+        return out
+    return for_each_line(f, block)
+
+def replace_flags(block):
+    print(cfg.flag_dict)
+    return block
+
 def remove_comments(block):
     def f(line, out):
         if line[0:2] != "//":
@@ -67,15 +83,22 @@ def replace_decimals(block):
         return out
     return for_each_line(f, block)
 
-def replace_instruction_names(block):
-    for key in cfg.instruction_dict.keys():
-        block = block.replace(key, cfg.instruction_dict[key])
+def replace_using_dict(block, dict):
+    for key in dict.keys():
+        block = block.replace(key, dict[key])
     return block
+
+def replace_instruction_names(block):
+    return replace_using_dict(block, cfg.instruction_dict)
+
+def replace_flags(block):
+    return replace_using_dict(block, cfg.flag_dict)
 
 ### Compiler main function ###
 def compile(block):
     block = remove_comments(block)
-    # block = replace_flags(block) #todo
+    block = collect_flags(block)
+    block = replace_flags(block)
     block = replace_decimals(block)
     block = replace_instruction_names(block)
     return block

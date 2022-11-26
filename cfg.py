@@ -14,3 +14,5 @@ instruction_dict = {
     "OUT"   : "1000",
     "AND"   : "1001"
 }
+flag_dict = {}
+flag_index = 0
