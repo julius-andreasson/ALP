@@ -9,6 +9,7 @@ The project is called `assembly-like programming` as it's made for coding on the
 - Automatic conversion from decimal to binary
 - Comments
 - Label system for line jumps
+- Output format is .hex, made to fit MCU programming software supplied by our university.
 
 # Examples
 An example:
@@ -25,8 +26,8 @@ B R0 #Check
 ```
 becomes
 ```
-0110 R0 00001010
-0010 R0 00000100
-0101 R0 00000001
-0011 R0 00000001
+c0a;
+404;
+a01;
+601;
 ```
