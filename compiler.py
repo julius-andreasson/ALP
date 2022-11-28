@@ -49,10 +49,10 @@ class Compiler:
         self.__collect_and_remove_labels()
         #self.__create_warnings()
         self.__replace_constants()
+        self.__allow_negation_of_binary()
         self.__replace_labels()
         self.__decimal_to_binary()
         self.__replace_instruction_codes_and_registers()
-        self.__allow_negation_of_binary()
         self.__binary_concatenation()
 
         self._to_hex()
