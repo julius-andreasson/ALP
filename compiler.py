@@ -52,7 +52,9 @@ class Compiler:
         self.__replace_labels()
         self.__decimal_to_binary()
         self.__replace_instruction_codes_and_registers()
+        self.__allow_negation_of_binary()
         self.__binary_concatenation()
+
         self._to_hex()
         #self._pad_with_zeros()
 
@@ -183,5 +185,13 @@ class Compiler:
             print(to_concat)
             self.__processed_code = self.__processed_code.replace(to_concat[0], to_concat[1]+to_concat[2])
 
-#    def __allow_not_of_binary(self):
+    def __allow_negation_of_binary(self):
+        def negate(binary: str) -> str:
+            return binary.replace("0", "3").replace("1", "0").replace("3", "1")
+
+        for to_concat in re.findall("(!b(\d*))", self.__processed_code):
+            print("___")
+            print(to_concat)
+            self.__processed_code = self.__processed_code.replace(to_concat[0], negate(to_concat[1]))
+        print(self.__processed_code)
 
