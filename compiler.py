@@ -21,6 +21,18 @@ class bcolors:
 Written to be self-explanatory'''
 
 
+while_loop = """
+    IN R1 0
+    SUB R1 G1
+    BZ R1 #in11a //if 10
+    B R1 #in11b //else
+"""
+
+if_cond = """IN R1 0
+SUB R1 I1
+BZ R1 #in11 //if 10
+B R1 #out01 //else"""
+
 def compile(block):
     return Compiler(block).result()
 
@@ -174,7 +186,7 @@ class Compiler:
         return self.__processed_line_number_to_src[index]
 
     def __replace_constants(self):
-        for const in re.findall("(CONST\s*(\w+)\s*=\s*(b?\d+))" , self.__processed_code):
+        for const in re.findall("(CONST\s*(\w[\w\d]+)\s*=\s*(b?\d+))" , self.__processed_code):
             # CONST x 500 on a line gives "x 500"
             self.__processed_code = self.__processed_code.replace(const[0], "")
             assert const[1] not in cfg.instruction_dict and const[1] not in cfg.register_dict
