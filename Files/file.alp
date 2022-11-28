@@ -1,9 +1,11 @@
-LD R0 10
+LD R0 10 //0
 #Check
 // If R0 == 0, goto End
-BZ R0 #End
+BZ R0 #End //1
 // Else, subtract one from R0
-SUB R0 1
+SUB R0 1 //2
 // goto #Check
-B R0 #Check
+B R0 #Check //3
 #End
+CONST x = 500
+B R0 x
