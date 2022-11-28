@@ -52,6 +52,7 @@ class Compiler:
         self.__replace_labels()
         self.__decimal_to_binary()
         self.__replace_instruction_codes_and_registers()
+        self.__binary_concatenation()
         self._to_hex()
         #self._pad_with_zeros()
 
@@ -148,6 +149,7 @@ class Compiler:
 
     def _to_hex(self):
         self.__processed_code = self.__processed_code.replace("b", "")
+
         def fu(line: str) -> str:
             if line:  # Shouldn't be needed
                 print(line)
@@ -170,12 +172,16 @@ class Compiler:
         return self.__processed_line_number_to_src[index]
 
     def __replace_constants(self):
-
         for const in re.findall("(CONST\s*(\w+)\s*=\s*(\d+))" , self.__processed_code):
             # CONST x 500 on a line gives "x 500"
-
             self.__processed_code = self.__processed_code.replace(const[0], "")
-
             assert const[1] not in cfg.instruction_dict and const[1] not in cfg.register_dict
-
             self.__processed_code = self.__processed_code.replace(const[1], const[2])
+
+    def __binary_concatenation(self):
+        for to_concat in re.findall("(b(\d*)\s*&\s*b(\d*))", self.__processed_code):
+            print(to_concat)
+            self.__processed_code = self.__processed_code.replace(to_concat[0], to_concat[1]+to_concat[2])
+
+#    def __allow_not_of_binary(self):
+

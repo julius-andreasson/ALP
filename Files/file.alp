@@ -7,5 +7,5 @@ SUB R0 1 //2
 // goto #Check
 B R0 #Check //3
 #End
-CONST x = 500
-B R0 x
+CONST xy = 500
+b100 & b110 // 100110
