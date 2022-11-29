@@ -172,7 +172,7 @@ class Compiler:
         return self.__processed_line_number_to_src[index]
 
     def __replace_constants(self):
-        for const in re.findall("(CONST\s*(\w+)\s*=\s*(\d+))" , self.__processed_code):
+        for const in re.findall("(CONST\s*(\w+)\s*=\s*(b?\d+))" , self.__processed_code):
             # CONST x 500 on a line gives "x 500"
             self.__processed_code = self.__processed_code.replace(const[0], "")
             assert const[1] not in cfg.instruction_dict and const[1] not in cfg.register_dict
