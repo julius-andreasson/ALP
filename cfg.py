@@ -1,7 +1,7 @@
 ### Settings ###
 datawidth = 8           # The width (in bits) of the "data" field on the MCU.
 debug = True            #
-default_path = "file"   # The default path used for both reading and writing, if no other is specified.
+default_path = "lion4"   # The default path used for both reading and writing, if no other is specified.
 instruction_dict = {    # Don't use lowercase b for other things than binary, that will mess things up
     "CALL"  : "0000",
     "RET"   : "0001",
